@@ -5,6 +5,7 @@ import {
   CitizenClaimWidget,
   createCitizenClaimWidgetCustodialExecution,
   useCitizenClaimAdapter,
+  type CitizenClaimWidgetEnvironment,
   type CitizenClaimWidgetProps,
 } from '@goodwidget/citizen-claim-widget'
 import {
@@ -70,11 +71,13 @@ function CitizenClaimWidgetStoryShell({
   dataTestId,
   defaultTheme,
   themeOverrides,
+  environment,
 }: {
   provider: unknown
   dataTestId: string
   defaultTheme?: 'light' | 'dark'
   themeOverrides?: CitizenClaimWidgetProps['themeOverrides']
+  environment?: CitizenClaimWidgetEnvironment
 }) {
   const [activeChainId, setActiveChainId] = useState<number | null>(null)
 
@@ -103,8 +106,9 @@ function CitizenClaimWidgetStoryShell({
 
   return (
     <CitizenClaimWidget
+      key={environment}
       provider={provider}
-      environment="development"
+      environment={environment ?? 'development'}
       data-testid={dataTestId}
       chainId={activeChainId ?? 42220}
       defaultTheme={defaultTheme}
@@ -116,9 +120,11 @@ function CitizenClaimWidgetStoryShell({
 export function InjectedWalletStory({
   defaultTheme,
   themeOverrides,
+  environment,
 }: {
   defaultTheme?: 'light' | 'dark'
   themeOverrides?: CitizenClaimWidgetProps['themeOverrides']
+  environment?: CitizenClaimWidgetEnvironment
 } = {}) {
   const injectedProvider = getInjectedEip1193Provider()
   const usableProvider = isInjectedProviderUsable(injectedProvider)
@@ -141,6 +147,7 @@ export function InjectedWalletStory({
       dataTestId="CitizenClaimWidget-injected-wallet"
       defaultTheme={defaultTheme}
       themeOverrides={themeOverrides}
+      environment={environment}
     />
   )
 }
@@ -148,9 +155,11 @@ export function InjectedWalletStory({
 export function CustodialLocalFixtureStory({
   defaultTheme,
   themeOverrides,
+  environment,
 }: {
   defaultTheme?: 'light' | 'dark'
   themeOverrides?: CitizenClaimWidgetProps['themeOverrides']
+  environment?: CitizenClaimWidgetEnvironment
 } = {}) {
   try {
     const provider = createCustodialEip1193Provider()
@@ -160,6 +169,7 @@ export function CustodialLocalFixtureStory({
         dataTestId="CitizenClaimWidget-custodial-wallet"
         defaultTheme={defaultTheme}
         themeOverrides={themeOverrides}
+        environment={environment}
       />
     )
   } catch (error: unknown) {
