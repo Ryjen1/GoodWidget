@@ -7,6 +7,7 @@ import {
   type AiCreditsWidgetTab,
   type AiCreditsWidgetAdapterState,
   type AiCreditsWidgetStatus,
+  type AiCreditsWidgetProps,
 } from '@goodwidget/ai-credits-widget'
 import { MockAiCreditsWidget } from '@goodwidget/ai-credits-widget/mocked'
 import {
@@ -108,12 +109,16 @@ function MockStoryShell({
   provider,
   showWalletControls,
   disconnectOverride,
+  defaultTheme,
+  themeOverrides,
 }: {
   adapterFactory: AiCreditsWidgetAdapterFactory
   dataTestId: string
   provider?: EIP1193Provider
   showWalletControls?: boolean
   disconnectOverride?: () => Promise<void>
+  defaultTheme?: 'light' | 'dark'
+  themeOverrides?: AiCreditsWidgetProps['themeOverrides']
 }) {
   const resolvedProviderRef = useRef<EIP1193Provider | null>(provider ?? null)
   const configErrorRef = useRef<unknown>(null)
@@ -160,6 +165,8 @@ function MockStoryShell({
         adapterFactory={statefulAdapterFactory}
         showWalletControls={showWalletControls}
         disconnectOverride={disconnectOverride}
+        defaultTheme={defaultTheme}
+        themeOverrides={themeOverrides}
       />
     </div>
   )
@@ -416,7 +423,35 @@ export function UnsupportedChainStory() {
   )
 }
 
-export function MockBackendStory() {
+export function ThemedAiCreditsStory({
+  defaultTheme,
+  themeOverrides,
+}: {
+  defaultTheme?: 'light' | 'dark'
+  themeOverrides?: AiCreditsWidgetProps['themeOverrides']
+} = {}) {
+  return (
+    <MockStoryShell
+      dataTestId="AiCreditsWidget-themed"
+      adapterFactory={createAdapterFactory('quote_ready', {
+        gBalance: '42.50',
+        signerPubKey: '0xabcdef1234567890abcdef1234567890abcdef12',
+        operatorConsented: true,
+        gdUsdPerToken: 0.0015,
+      })}
+      defaultTheme={defaultTheme}
+      themeOverrides={themeOverrides}
+    />
+  )
+}
+
+export function MockBackendStory({
+  defaultTheme,
+  themeOverrides,
+}: {
+  defaultTheme?: 'light' | 'dark'
+  themeOverrides?: AiCreditsWidgetProps['themeOverrides']
+} = {}) {
   const injectedProvider = getInjectedEip1193Provider()
 
   if (!isInjectedProviderUsable(injectedProvider)) {
@@ -433,7 +468,12 @@ export function MockBackendStory() {
 
   return (
     <YStack data-testid="AiCreditsWidget-mock-backend" style={{ width: 380 }}>
-      <MockAiCreditsWidget provider={injectedProvider} showWalletControls />
+      <MockAiCreditsWidget
+        provider={injectedProvider}
+        showWalletControls
+        defaultTheme={defaultTheme}
+        themeOverrides={themeOverrides}
+      />
     </YStack>
   )
 }

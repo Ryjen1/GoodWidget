@@ -1,5 +1,6 @@
 import { Canvas, Meta } from '@storybook/blocks';
 import * as ShowcaseStories from './AiCreditsWidgetShowcase.stories';
+import * as ThemeOverridesStories from './AiCreditsWidgetThemeOverrides.stories';
 import { DocsCallout, DocsCard, DocsGrid, DocsPage, DocsSection } from '../docs/DocsLayout';
 
 <Meta of={ShowcaseStories} />
@@ -21,6 +22,13 @@ import { DocsCallout, DocsCard, DocsGrid, DocsPage, DocsSection } from '../docs/
     description="Uses your browser wallet (`window.ethereum`, e.g. Rabby), `VITE_AI_CREDITS_BACKEND_URL`, `VITE_AI_CREDITS_BASE_RPC_URL`, `VITE_AI_CREDITS_CELO_RPC_URL` (optional), `VITE_AI_CREDITS_FUNDING_VAULT_ADDRESS`, `VITE_AI_CREDITS_VAULT_ADDRESS`, and optional `VITE_AI_CREDITS_GOODID_ADDRESS` from `examples/storybook/.env.local`. GoodID verification uses on-chain `getWhitelistedRoot` via the Celo RPC (defaults to mainnet GoodID contract)."
   >
     <Canvas of={ShowcaseStories.InjectedWallet} />
+  </DocsSection>
+
+  <DocsSection
+    title="Theme overrides"
+    description="Play around with some of the theme overrides using the controls below (you may have to activate Controls in the addons panel, top-right). The code here can be copied and used directly in your own dapp — it always matches what's rendered. See the callout below the code for additional overridable styles not wired to a control."
+  >
+    <Canvas of={ThemeOverridesStories.Playground} />
   </DocsSection>
 
   <DocsSection
