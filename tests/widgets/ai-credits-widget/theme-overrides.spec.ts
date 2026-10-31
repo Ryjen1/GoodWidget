@@ -15,8 +15,7 @@ test('AiCreditsWidget Theme Overrides playground applies custom hero card backgr
   const themedWidget = page.getByTestId('AiCreditsWidget-themed')
   await expect(themedWidget).toBeVisible()
 
-  // The hero card contains "Your G$ Balance"
-  const heroCard = themedWidget.locator('text=Your G$ Balance').locator('..').locator('..')
+  const heroCard = themedWidget.locator('.is_Card').filter({ has: page.getByText('Your G$ Balance') }).first()
   await expect(heroCard).toBeVisible()
 
   // Check that the overridden backgroundSurface (#1E1B4B -> rgb(30, 27, 75)) is applied

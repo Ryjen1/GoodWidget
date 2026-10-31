@@ -16,5 +16,9 @@ test('GoodReserveWidget Theme Overrides playground renders with custom theme ove
   await expect(themedWidget).toBeVisible()
 
   // Verify swap UI rendered inside the themed widget
-  await expect(themedWidget.getByText('Swap G$')).toBeVisible()
+  const shell = page.getByTestId('GoodReserveWidget-shell').first()
+  await expect(shell).toBeVisible()
+
+  // Check that swap shell backgroundSurface override (#1E1B4B -> rgb(30, 27, 75)) is applied
+  await expect(shell).toHaveCSS('background-color', 'rgb(30, 27, 75)')
 })

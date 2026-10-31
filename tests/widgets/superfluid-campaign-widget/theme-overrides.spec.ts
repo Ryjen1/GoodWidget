@@ -16,6 +16,7 @@ test('SuperfluidCampaignWidget Theme Overrides playground applies custom outer c
   await expect(themedWidget).toBeVisible()
 
   // Outer card has backgroundDark override (#1E1B4B -> rgb(30, 27, 75))
-  const card = themedWidget.locator('[data-testid="SuperfluidCampaignWidget-themed"] > *').first()
+  const card = themedWidget.locator('.is_Card').first()
   await expect(card).toBeVisible()
+  await expect(card).toHaveCSS('background-color', 'rgb(30, 27, 75)')
 })
